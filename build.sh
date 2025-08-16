@@ -38,4 +38,4 @@ build_and_install "boost" b2-static \
     --with-process \
     architecture="$(normalize_arch "default" "short")"
 
-copy_libs "boost" "artifacts" "boost_atomic" "boost_context" "boost_date_time" "boost_filesystem" "boost_process" "boost_system"
+copy_libs "boost" "artifacts" "boost_atomic" "boost_context" "boost_date_time" "boost_filesystem" "boost_process"
