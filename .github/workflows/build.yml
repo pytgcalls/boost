@@ -23,6 +23,8 @@ jobs:
             arch_image: arm64
             gcc_suffix: manylinux
             host: arm64-server
+          - name: android
+            host: ubuntu-latest
           - name: macos-arm64
             host: macos-15
           - name: windows-x86_64
@@ -59,6 +61,14 @@ jobs:
         run: |
           docker run -v $(pwd):/app -w /app \
             ghcr.io/pytgcalls/ntgcalls/${{ matrix.platform.gcc_suffix }}-${{ matrix.platform.arch_image }}:latest bash build.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build boost (Android)
+        if: matrix.platform.name == 'android'
+        run: bash build.sh --platform="android"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build boost (Windows)
         if: matrix.platform.name == 'windows-x86_64'
@@ -66,12 +76,14 @@ jobs:
         run: |
           export PATH="$(dirname "$(cygpath -u "$cmake_path")"):$PATH"
           bash build.sh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build boost (macOS)
         if: matrix.platform.name == 'macos-arm64'
         run: bash build.sh
 
-      - name: Prepare for artifact (Linux and macOS)
+      - name: Prepare for artifact (Linux, macOS and Android)
         if: matrix.platform.name != 'windows-x86_64'
         run: |
           tar -czvf boost.${{ matrix.platform.name }}.tar.gz artifacts
@@ -81,7 +93,7 @@ jobs:
         run: |
           Compress-Archive -Path artifacts -DestinationPath boost.${{ matrix.platform.name }}.zip
 
-      - name: Upload artifact (Linux and macOS)
+      - name: Upload artifact (Linux, macOS and Android)
         uses: actions/upload-artifact@v4
         if: matrix.platform.name != 'windows-x86_64'
         with:
@@ -114,6 +126,9 @@ jobs:
       - uses: ./.github/actions/download
         with:
           platform: macos-arm64
+      - uses: ./.github/actions/download
+        with:
+          platform: android
       - name: Env to output
         run: |
           echo "package_paths<<EOF" >> $GITHUB_OUTPUT
