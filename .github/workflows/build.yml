@@ -94,14 +94,14 @@ jobs:
           Compress-Archive -Path artifacts -DestinationPath boost.${{ matrix.platform.name }}.zip
 
       - name: Upload artifact (Linux, macOS and Android)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: matrix.platform.name != 'windows-x86_64'
         with:
           name: boost.${{ matrix.platform.name }}.tar.gz
           path: boost.${{ matrix.platform.name }}.tar.gz
 
       - name: Upload artifact (Windows)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         if: matrix.platform.name == 'windows-x86_64'
         with:
           name: boost.${{ matrix.platform.name }}.zip
