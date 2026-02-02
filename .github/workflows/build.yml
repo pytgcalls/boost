@@ -59,10 +59,8 @@ jobs:
       - name: Build boost (Linux)
         if: matrix.platform.name == 'linux-x86_64' || matrix.platform.name == 'linux-arm64'
         run: |
-          docker run -v $(pwd):/app -w /app \
-            ghcr.io/pytgcalls/ntgcalls/${{ matrix.platform.gcc_suffix }}-${{ matrix.platform.arch_image }}:latest bash build.sh
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          docker run --rm -v $(pwd):/app -w /app --env GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }} \
+              ghcr.io/pytgcalls/ntgcalls/${{ matrix.platform.gcc_suffix }}-${{ matrix.platform.arch_image }}:latest bash build.sh
 
       - name: Build boost (Android)
         if: matrix.platform.name == 'android'
