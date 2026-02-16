@@ -1,6 +1,6 @@
 source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/pytgcalls/build-toolkit/refs/heads/master/build-toolkit.sh)"
 
-if is_macos || (is_linux && ! is_arm64) || is_android; then
+if is_macos || is_android; then
   require clang-21
 
   if is_android; then

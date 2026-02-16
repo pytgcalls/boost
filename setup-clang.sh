@@ -1,5 +1,5 @@
 function setup_clang() {
-    echo "using clang : : $(if ! is_arm64; then echo "$CLANG_BIN/"; fi)clang++ : ;" > "$DEFAULT_BUILD_FOLDER/boost/project-config.jam"
+    echo "using clang : : $(if ! is_linux; then echo "$CLANG_BIN/"; fi)clang++ : ;" > "$DEFAULT_BUILD_FOLDER/boost/project-config.jam"
 }
 
 function libcxx_flags() {
