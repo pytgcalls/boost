@@ -3,5 +3,9 @@ function setup_clang() {
 }
 
 function libcxx_flags() {
-    echo "-D_LIBCPP_ABI_NAMESPACE=Cr -D_LIBCPP_ABI_VERSION=2 -D_LIBCPP_DISABLE_AVAILABILITY -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -nostdinc++ -isystem$DEFAULT_BUILD_FOLDER/libcxx/include"
+    local flags="-D_LIBCPP_ABI_NAMESPACE=Cr -D_LIBCPP_ABI_VERSION=2 -D_LIBCPP_DISABLE_AVAILABILITY -D_LIBCPP_HARDENING_MODE=_LIBCPP_HARDENING_MODE_EXTENSIVE -nostdinc++ -isystem$DEFAULT_BUILD_FOLDER/libcxx/include"
+    if is_musl; then
+        flags="$flags -D_LIBCPP_PROVIDES_DEFAULT_RUNE_TABLE"
+    fi
+    echo "$flags"
 }
