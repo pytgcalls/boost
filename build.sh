@@ -60,7 +60,6 @@ for arch in "${arch_builds[@]}"; do
         --with-atomic
         --with-context
         --with-date_time
-        --with-system
         --with-filesystem
         --with-process" \
       --with-json \
