@@ -35,7 +35,7 @@ jobs:
             host: windows-2022
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
 
       - name: Set up QEMU
         if: matrix.platform.name == 'linux-arm64'
@@ -115,7 +115,7 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/download
         with:
           platform: windows-x86_64
