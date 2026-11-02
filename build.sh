@@ -1,15 +1,11 @@
 source /dev/stdin <<< "$(curl -s https://raw.githubusercontent.com/pytgcalls/build-toolkit/refs/heads/master/build-toolkit.sh)"
 
-if is_macos || is_android; then
-  require clang-21
-
-  if is_android; then
-    require ndk
-  fi
+if is_macos || is_android || is_windows; then
+  require clang-23
 fi
 
-if is_windows; then
-  require clang-22
+if is_android; then
+  require ndk
 fi
 
 import libraries.properties
