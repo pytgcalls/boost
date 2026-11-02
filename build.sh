@@ -8,6 +8,10 @@ if is_android; then
   require ndk
 fi
 
+if is_windows; then
+  require msvc
+fi
+
 import libraries.properties
 import setup-clang.sh
 
