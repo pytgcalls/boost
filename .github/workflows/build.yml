@@ -30,7 +30,7 @@ jobs:
           - name: android
             host: ubuntu-latest
           - name: macos-arm64
-            host: macos-15
+            host: macos-latest
           - name: windows-x86_64
             host: windows-2022
     steps:
