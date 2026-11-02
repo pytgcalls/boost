@@ -8,12 +8,16 @@ if is_macos || is_android; then
   fi
 fi
 
+if is_windows; then
+  require clang-22
+fi
+
 import libraries.properties
 import setup-clang.sh
 
 sysroot=""
 
-if is_linux || is_macos || is_android; then
+if is_linux || is_macos || is_android || is_windows; then
   build_and_install "libcxx" clone
   build_and_install "buildtools" clone
 
@@ -42,9 +46,10 @@ for arch in "${arch_builds[@]}"; do
   build_and_install "boost" b2-static \
       --update-submodules \
       --linux="target-os=linux cxxflags=\"$(libcxx_flags)\"" \
-      --windows="target-os=windows toolset=msvc
+      --windows="target-os=windows toolset=clang-win
         runtime-link=static
-        cxxflags=\"-D_ITERATOR_DEBUG_LEVEL=0\"" \
+        cxxflags=\"$(libcxx_flags_win)\"
+        --pre-build-commands=\"setup_clang_win\"" \
       --macos="cflags=\"--sysroot=$sysroot -target aarch64-apple-darwin -mmacosx-version-min=14.0\" \
         cxxflags=\"--sysroot=$sysroot -std=gnu++17 -target aarch64-apple-darwin -mmacosx-version-min=14.0 $(libcxx_flags)\" \
         visibility=hidden" \
